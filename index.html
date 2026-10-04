@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>المراسلات الخارجية - مختبر سبت العلاية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--brand:#0b5d6b;--brand2:#0b3d46;--bg:#eef2f5;--card:#fff;--line:#d5dde3;--red:#a4161a;--ink:#14212b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:'Tajawal',Tahoma,sans-serif;color:var(--ink);font-size:15px}
+header.app{background:var(--brand2);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
+header.app img{height:36px;background:#fff;border-radius:6px;padding:2px}
+header.app h1{font-size:16px;margin:0;line-height:1.4}
+header.app small{display:block;font-weight:400;opacity:.8;font-size:12px}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.tabs button{flex:1;border:0;background:none;font-family:inherit;font-size:15px;font-weight:700;padding:13px 6px;color:#678;border-bottom:3px solid transparent;cursor:pointer}
+.tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
+main{max-width:760px;margin:0 auto;padding:14px 14px 110px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.card h2{font-size:15px;margin:0 0 10px;color:var(--brand);display:flex;align-items:center;gap:6px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+label.fld{display:block;font-size:13px;font-weight:700;color:#456;margin-bottom:10px}
+label.fld span{display:block;margin-bottom:4px}
+select,input[type=text],input[type=number],textarea{width:100%;font-family:inherit;font-size:15px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fbfcfd;color:var(--ink)}
+select:focus,input:focus,textarea:focus{outline:2px solid #9cd3dc;border-color:var(--brand)}
+.hide{display:none!important}
+.item{border:1px dashed #b8c6cf;border-radius:10px;padding:10px;margin-bottom:10px;position:relative;background:#fafcfd}
+.item .no{position:absolute;top:-10px;right:10px;background:var(--brand);color:#fff;border-radius:20px;font-size:12px;padding:1px 9px;font-weight:700}
+.item .del{position:absolute;top:-10px;left:10px;background:#fff;color:var(--red);border:1px solid #e3b3b5;border-radius:20px;font-size:12px;padding:1px 9px;cursor:pointer;font-family:inherit}
+.g3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.g3{grid-template-columns:1fr 1fr}.g3>:first-child{grid-column:1/-1}}
+.item label.fld{margin-bottom:6px}
+.add{width:100%;border:2px dashed var(--brand);background:#f0f8f9;color:var(--brand);font-family:inherit;font-weight:800;font-size:15px;padding:10px;border-radius:10px;cursor:pointer}
+.bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:10px;justify-content:center;z-index:6}
+.btn{border:0;border-radius:10px;font-family:inherit;font-weight:800;font-size:15px;padding:12px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn.p{background:var(--brand);color:#fff;flex:1;max-width:420px;justify-content:center}
+.btn.s{background:#e7eef2;color:var(--brand2)}
+.hint{font-size:12px;color:#789;margin-top:-4px;margin-bottom:8px}
+/* preview */
+#ov{position:fixed;inset:0;background:#55626b;z-index:20;display:none;flex-direction:column}
+#ov.on{display:flex}
+#ov .top{background:var(--brand2);padding:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#ov .top .btn{padding:9px 14px;font-size:14px}
+#ov .top .btn.w{background:#fff;color:var(--brand2)}
+#ov .top .btn.g{background:#1f8a5b;color:#fff}
+#ov .scroll{flex:1;overflow:auto;padding:14px 0}
+#scaler{transform-origin:top center;margin:0 auto;width:210mm}
+/* letter */
+.letter{width:210mm;min-height:297mm;background:#fff;padding:11mm 14mm 10mm;font-size:13.5px;line-height:1.85;color:#111;display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.lh{display:grid;grid-template-columns:1fr 36mm 1fr;align-items:center;border-bottom:2.5px solid var(--brand);padding-bottom:6px}
+.lh .r{font-weight:700;font-size:12px;line-height:1.6}
+.lh .l{direction:ltr;text-align:left;font-size:11px;line-height:1.6}
+.lh .c{text-align:center}
+.lh .c img{max-width:34mm;max-height:26mm}
+.lmeta{display:flex;justify-content:space-between;font-size:12.5px;margin:6px 0 10px;border-bottom:1px solid #ccc;padding-bottom:5px}
+.lmeta b{color:#333}
+.lto{font-weight:800;font-size:15px;display:flex;justify-content:space-between;margin-top:4px}
+.lsal{text-align:center;font-weight:700;margin:6px 0}
+.lsub{font-weight:800;margin:4px 0 6px}
+.lsub .tag{display:inline-block;border:2px solid var(--red);color:var(--red);padding:0 8px;border-radius:4px;font-size:12.5px;margin-inline-start:8px;line-height:1.6}
+.letter p{margin:0 0 6px;text-align:justify}
+.letter table{width:100%;border-collapse:collapse;margin:6px 0 8px;font-size:12.5px;line-height:1.5}
+.letter th,.letter td{border:1px solid #444;padding:4px 5px;text-align:center}
+.letter th{background:#e3edf0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.letter tfoot td{font-weight:800;background:#f3f6f7;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pt{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid #444;margin:4px 0 8px;font-size:12.5px;line-height:1.5}
+.pt div{padding:3px 6px;border-left:1px solid #bbb;border-bottom:1px solid #bbb}
+.pt div b{color:#333}
+.mini{font-weight:800;font-size:13px;margin:6px 0 2px;color:var(--brand)}
+.lclose{text-align:center;font-weight:700;margin:8px 0}
+.lsig{display:flex;justify-content:space-around;text-align:center;font-weight:700;margin-top:10px;line-height:2}
+.lsig>div{min-width:40%}
+.lcc{font-size:12px;margin-top:auto;border-top:1px dashed #bbb;padding-top:4px;line-height:1.7}
+.lfoot{font-size:10px;color:#777;display:flex;justify-content:space-between;border-top:1px solid #aaa;margin-top:4px;padding-top:3px}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  body>*:not(#ov){display:none!important}
+  #ov{position:static;display:block!important;background:#fff}
+  #ov .top{display:none}
+  #ov .scroll{padding:0;overflow:visible}
+  #scaler{transform:none!important;width:auto;height:auto!important}
+  .letter{box-shadow:none;min-height:297mm}
+}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <img src="logo.svg" alt="" onerror="this.remove()">
+  <h1>المراسلات الخارجية للمختبر<small>مستشفى سبت العلاية العام — تجمع عسير الصحي</small></h1>
+</header>
+
+<nav class="tabs">
+  <button id="tb-blood" class="on" onclick="tab('blood')">🩸 طلب وحدات دم</button>
+  <button id="tb-ref" onclick="tab('ref')">🧪 تحويل عينات</button>
+</nav>
+
+<main>
+<!-- ================= طلب الدم ================= -->
+<section id="sec-blood">
+  <div class="card">
+    <h2>📨 بيانات الخطاب</h2>
+    <div class="row">
+      <label class="fld"><span>الجهة المخاطبة</span>
+        <select id="b-to" onchange="otherToggle(this,'b-to-o')"></select></label>
+      <label class="fld hide" id="b-to-o-w"><span>اكتب اسم الجهة</span><input type="text" id="b-to-o"></label>
+      <label class="fld"><span>رقم الخطاب</span><input type="text" id="b-no" placeholder="اختياري"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>الغرض من الطلب</span>
+        <select id="b-type" onchange="ptToggle()">
+          <option value="pt">حالة مريض منوّم</option>
+          <option value="stock">تعزيز المخزون الاحتياطي</option>
+        </select></label>
+      <label class="fld"><span>درجة الأولوية</span>
+        <select id="b-pri">
+          <option value="r">اعتيادي</option>
+          <option value="u" selected>عاجل</option>
+          <option value="e">طارئ — مهدد للحياة</option>
+        </select></label>
+    </div>
+  </div>
+
+  <div class="card" id="b-pt">
+    <h2>🧑‍⚕️ بيانات المريض</h2>
+    <div class="row">
+      <label class="fld"><span>اسم المريض</span><input type="text" id="b-pn"></label>
+      <label class="fld"><span>رقم الملف</span><input type="text" id="b-pf"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>العمر</span><input type="text" id="b-pa"></label>
+      <label class="fld"><span>الجنس</span><select id="b-pg"><option value="">—</option><option>ذكر</option><option>أنثى</option></select></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>القسم</span><select id="b-pw"></select></label>
+      <label class="fld"><span>فصيلة المريض</span><select id="b-pbg"></select></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>التشخيص / سبب النقل</span><select id="b-pd" onchange="otherToggle(this,'b-pd-o')"></select></label>
+      <label class="fld hide" id="b-pd-o-w"><span>اكتب التشخيص</span><input type="text" id="b-pd-o"></label>
+      <label class="fld"><span>الهيموجلوبين Hb (g/dL)</span><input type="text" id="b-hb" inputmode="decimal"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>الصفائح PLT (×10³/µL)</span><input type="text" id="b-plt" inputmode="decimal"></label>
+      <label class="fld"><span>فحص الأجسام المضادة</span><select id="b-ab"><option value="">—</option><option>Negative</option><option>Positive</option><option>لم يُجرَ</option></select></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🩸 الوحدات المطلوبة</h2>
+    <div id="b-items"></div>
+    <button class="add" onclick="addBlood()">+ إضافة مشتق آخر</button>
+  </div>
+
+  <div class="card">
+    <h2>✍️ التوقيعات</h2>
+    <div class="row">
+      <label class="fld"><span>مشرف بنك الدم</span><input type="text" id="b-sup" class="keep"></label>
+      <label class="fld"><span>رئيس قسم المختبر</span><input type="text" id="b-head" class="keep" value="سعد علي سعد القرني"></label>
+    </div>
+    <label class="fld"><span>ملاحظات إضافية (تظهر في الخطاب)</span><textarea id="b-note" rows="2"></textarea></label>
+  </div>
+</section>
+
+<!-- ================= تحويل العينات ================= -->
+<section id="sec-ref" class="hide">
+  <div class="card">
+    <h2>📨 بيانات الخطاب</h2>
+    <div class="row">
+      <label class="fld"><span>الجهة المخاطبة</span>
+        <select id="r-to" onchange="otherToggle(this,'r-to-o')"></select></label>
+      <label class="fld hide" id="r-to-o-w"><span>اكتب اسم الجهة</span><input type="text" id="r-to-o"></label>
+      <label class="fld"><span>رقم الخطاب</span><input type="text" id="r-no" placeholder="اختياري"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>سبب التحويل</span><select id="r-why"></select></label>
+      <label class="fld"><span>درجة الأولوية</span>
+        <select id="r-pri"><option value="r">اعتيادي</option><option value="u">عاجل</option></select></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧑‍⚕️ بيانات المريض</h2>
+    <div class="row">
+      <label class="fld"><span>اسم المريض</span><input type="text" id="r-pn"></label>
+      <label class="fld"><span>رقم الملف</span><input type="text" id="r-pf"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>رقم الهوية / الإقامة</span><input type="text" id="r-pid" inputmode="numeric"></label>
+      <label class="fld"><span>العمر</span><input type="text" id="r-pa"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>الجنس</span><select id="r-pg"><option value="">—</option><option>ذكر</option><option>أنثى</option></select></label>
+      <label class="fld"><span>القسم / العيادة</span><select id="r-pw"></select></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>الطبيب الطالب</span><input type="text" id="r-dr"></label>
+      <label class="fld"><span>التشخيص المبدئي</span><input type="text" id="r-dx"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧪 الفحوصات المطلوبة</h2>
+    <div id="r-items"></div>
+    <button class="add" onclick="addRef()">+ إضافة فحص آخر</button>
+  </div>
+
+  <div class="card">
+    <h2>📬 إرسال النتائج والتوقيع</h2>
+    <div class="row">
+      <label class="fld"><span>طريقة إرسال النتائج</span>
+        <select id="r-via"><option>البريد الإلكتروني</option><option>الفاكس</option><option>النظام الإلكتروني</option><option>الهاتف</option></select></label>
+      <label class="fld"><span>العنوان / الرقم</span><input type="text" id="r-viaV" class="keep" dir="ltr" value="bhh-hos-ash-lab@moh.gov.sa"></label>
+    </div>
+    <div class="row">
+      <label class="fld"><span>رئيس قسم المختبر</span><input type="text" id="r-head" class="keep" value="سعد علي سعد القرني"></label>
+      <label class="fld"><span>ملاحظات إضافية</span><input type="text" id="r-note"></label>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="bar">
+  <button class="btn s" onclick="resetForm()">↺ جديد</button>
+  <button class="btn p" onclick="preview()">📄 معاينة الخطاب</button>
+</div>
+
+<div id="ov">
+  <div class="top">
+    <button class="btn w" onclick="closeOv()">✕ تعديل</button>
+    <button class="btn w" onclick="window.print()">🖨️ طباعة</button>
+    <button class="btn g" onclick="sharePdf()" id="shareBtn">📤 مشاركة PDF</button>
+  </div>
+  <div class="scroll"><div id="scaler"><div class="letter" id="letter"></div></div></div>
+</div>
+
+<script>
+/* ---------- البيانات ---------- */
+const HOSP='مستشفى سبت العلاية العام';
+const DEST=['مستشفى عسير المركزي - أبها','مستشفى خميس مشيط العام','مستشفى النماص العام','المختبر الإقليمي - تجمع عسير الصحي','بنك الدم الإقليمي - عسير'];
+const WARDS=['الطوارئ','الباطنية رجال','الباطنية نساء','الجراحة','النساء والولادة','الأطفال','الحضانة / حديثي الولادة','العناية المركزة','العيادات الخارجية','غسيل الكلى'];
+const BG=['O+','O−','A+','A−','B+','B−','AB+','AB−'];
+const DX=['نزيف حاد','فقر دم شديد','نزيف ما بعد الولادة','عملية جراحية','نقص الصفائح','اضطراب تخثر','فقر الدم المنجلي','الثلاسيميا','حادث / إصابة','أخرى'];
+const PRODUCTS=[
+ ['دم كامل','Whole Blood'],['كريات حمراء مركزة','Packed RBCs'],['صفائح دموية عشوائية','Random Platelets'],
+ ['صفائح دموية بالفصادة','Apheresis Platelets'],['بلازما طازجة مجمدة','FFP'],['راسب البلازما','Cryoprecipitate']];
+const SPECIAL=['—','منزوعة الكريات البيض','مشععة','سالبة CMV','مغسولة','متوافقة مع المريض'];
+const WHY={
+ reag:['نفاد المحاليل والكواشف','لنفاد المحاليل والكواشف الخاصة بها لدينا حالياً'],
+ dev:['توقف / عطل الجهاز','لتوقف الجهاز الخاص بإجرائها عن العمل حالياً'],
+ low:['قلة الطلب (سعة المستشفى)','لعدم توفرها لدينا لقلة الطلب عليها بما لا يتناسب مع السعة السريرية للمستشفى'],
+ sec:['عدم وجود قسم مختص','لعدم وجود القسم المختص بإجرائها في مختبر المستشفى'],
+ conf:['تأكيد نتيجة','لغرض تأكيد النتيجة المبدئية']};
+const T_RT='حرارة الغرفة',T_C='مبرد 2–8°م',T_F='مجمد −20°م',T_I='على ثلج';
+const SPEC=['مصل Serum','بلازما Plasma','دم كامل EDTA','دم كامل Heparin','بول Urine','نسيج Tissue','سائل Fluid','مسحة Swab','بقعة دم جافة DBS','براز Stool','بلغم Sputum','سائل نخاعي CSF'];
+const CONT=['أنبوب جل أصفر','أنبوب أحمر','أنبوب EDTA بنفسجي','أنبوب Heparin أخضر','أنبوب Citrate أزرق','أنبوب Fluoride رمادي','وعاء بول معقم','وعاء فورمالين 10%','وعاء معقم','بطاقة DBS','قارورة زراعة'];
+const TEMPS=[T_RT,T_C,T_F,T_I];
+const CAT={
+ histo:['الأنسجة Histopathology',[
+  ['خزعة نسيجية Tissue Biopsy','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['الزائدة الدودية Appendix','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['المرارة Gallbladder','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['نواتج الحمل POC','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['المشيمة Placenta','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['كحت بطانة الرحم Endometrial Curettage','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['خزعة جلد Skin Biopsy','نسيج Tissue','وعاء فورمالين 10%',T_RT],
+  ['عقدة لمفاوية Lymph Node','نسيج Tissue','وعاء فورمالين 10%',T_RT]]],
+ cyto:['الخلايا Cytology',[
+  ['مسحة عنق الرحم Pap Smear','مسحة Swab','وعاء معقم',T_RT],
+  ['خلايا السوائل Fluid Cytology','سائل Fluid','وعاء معقم',T_C],
+  ['شفط بالإبرة FNA','سائل Fluid','وعاء معقم',T_RT],
+  ['خلايا البول Urine Cytology','بول Urine','وعاء بول معقم',T_C]]],
+ torch:['TORCH',[
+  ['TORCH Panel (IgG/IgM)','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Toxoplasma IgG/IgM','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Rubella IgG/IgM','مصل Serum','أنبوب جل أصفر',T_C],
+  ['CMV IgG/IgM','مصل Serum','أنبوب جل أصفر',T_C],
+  ['HSV 1/2 IgG/IgM','مصل Serum','أنبوب جل أصفر',T_C]]],
+ tox:['السموم والمخدرات',[
+  ['مسح المخدرات في البول Urine Drug Screen','بول Urine','وعاء بول معقم',T_C],
+  ['Amphetamine / Methamphetamine','بول Urine','وعاء بول معقم',T_C],
+  ['Cannabinoids (THC)','بول Urine','وعاء بول معقم',T_C],
+  ['Opiates','بول Urine','وعاء بول معقم',T_C],
+  ['Benzodiazepines','بول Urine','وعاء بول معقم',T_C],
+  ['Cocaine','بول Urine','وعاء بول معقم',T_C],
+  ['Ethanol Level','دم كامل EDTA','أنبوب Fluoride رمادي',T_C],
+  ['Paracetamol Level','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Salicylate Level','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Lead Level','دم كامل EDTA','أنبوب EDTA بنفسجي',T_C],
+  ['Carboxyhemoglobin COHb','دم كامل Heparin','أنبوب Heparin أخضر',T_C]]],
+ tdm:['مستوى الأدوية TDM',[
+  ['Digoxin','مصل Serum','أنبوب أحمر',T_C],['Vancomycin','مصل Serum','أنبوب أحمر',T_C],
+  ['Phenytoin','مصل Serum','أنبوب أحمر',T_C],['Valproic Acid','مصل Serum','أنبوب أحمر',T_C],
+  ['Carbamazepine','مصل Serum','أنبوب أحمر',T_C],['Lithium','مصل Serum','أنبوب أحمر',T_C],
+  ['Gentamicin','مصل Serum','أنبوب أحمر',T_C],['Tacrolimus','دم كامل EDTA','أنبوب EDTA بنفسجي',T_C]]],
+ horm:['هرمونات وكيمياء خاصة',[
+  ['Vitamin D (25-OH)','مصل Serum','أنبوب جل أصفر',T_C],['Vitamin B12','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Folate','مصل Serum','أنبوب جل أصفر',T_C],['PTH','بلازما Plasma','أنبوب EDTA بنفسجي',T_C],
+  ['ACTH','بلازما Plasma','أنبوب EDTA بنفسجي',T_I],['Cortisol','مصل Serum','أنبوب جل أصفر',T_C],
+  ['AMH','مصل Serum','أنبوب جل أصفر',T_C],['Insulin / C-Peptide','مصل Serum','أنبوب جل أصفر',T_F],
+  ['Ammonia','بلازما Plasma','أنبوب EDTA بنفسجي',T_I],
+  ['Tumor Markers (CEA, CA-125, CA19-9, AFP, PSA)','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Protein Electrophoresis','مصل Serum','أنبوب جل أصفر',T_C]]],
+ sero:['مصليات ومناعة',[
+  ['ANA','مصل Serum','أنبوب جل أصفر',T_C],['Anti-dsDNA','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Anti-CCP','مصل Serum','أنبوب جل أصفر',T_C],['C3 / C4','مصل Serum','أنبوب جل أصفر',T_C],
+  ['Brucella Antibodies','مصل Serum','أنبوب جل أصفر',T_C],['Celiac (tTG IgA)','مصل Serum','أنبوب جل أصفر',T_C]]],
+ mol:['الفحوصات الجزيئية PCR',[
+  ['HBV DNA Viral Load','بلازما Plasma','أنبوب EDTA بنفسجي',T_F],['HCV RNA Viral Load','بلازما Plasma','أنبوب EDTA بنفسجي',T_F],
+  ['HIV Viral Load','بلازما Plasma','أنبوب EDTA بنفسجي',T_F],['MTB PCR','بلغم Sputum','وعاء معقم',T_C],
+  ['Respiratory Panel PCR','مسحة Swab','وعاء معقم',T_C]]],
+ micro:['زراعة خاصة',[
+  ['زراعة السل AFB Culture','بلغم Sputum','وعاء معقم',T_C],['زراعة فطريات Fungal Culture','مسحة Swab','وعاء معقم',T_RT],
+  ['زراعة لاهوائية Anaerobic Culture','مسحة Swab','قارورة زراعة',T_RT]]],
+ gen:['وراثة وحديثي الولادة',[
+  ['فحص حديثي الولادة Newborn Screening','بقعة دم جافة DBS','بطاقة DBS',T_RT],
+  ['G6PD Quantitative','دم كامل EDTA','أنبوب EDTA بنفسجي',T_C],
+  ['Hb Electrophoresis','دم كامل EDTA','أنبوب EDTA بنفسجي',T_C],
+  ['الكروموسومات Karyotype','دم كامل Heparin','أنبوب Heparin أخضر',T_RT]]],
+ hem:['أمراض الدم الخاصة',[
+  ['Coagulation Factor Assay','بلازما Plasma','أنبوب Citrate أزرق',T_F],
+  ['Lupus Anticoagulant','بلازما Plasma','أنبوب Citrate أزرق',T_F],
+  ['Protein C / Protein S','بلازما Plasma','أنبوب Citrate أزرق',T_F],
+  ['Flow Cytometry','دم كامل EDTA','أنبوب EDTA بنفسجي',T_RT]]]
+};
+
+/* ---------- أدوات ---------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const opts=(arr,first)=> (first!==undefined?`<option value="">${first}</option>`:'')+arr.map(a=>`<option>${esc(a)}</option>`).join('');
+function fillSel(id,arr,first,other){$(id).innerHTML=opts(arr,first)+(other?'<option value="__o">أخرى (اكتب)</option>':'');}
+function otherToggle(sel,inp){$(inp+'-w').classList.toggle('hide',sel.value!=='__o');}
+const val=(sel,inp)=>$(sel).value==='__o'?$(inp).value.trim():$(sel).value;
+let cur='blood';
+function tab(t){cur=t;$('sec-blood').classList.toggle('hide',t!=='blood');$('sec-ref').classList.toggle('hide',t!=='ref');
+ $('tb-blood').classList.toggle('on',t==='blood');$('tb-ref').classList.toggle('on',t==='ref');scrollTo(0,0);}
+function ptToggle(){$('b-pt').classList.toggle('hide',$('b-type').value!=='pt');}
+
+/* ---------- عناصر الدم ---------- */
+function addBlood(){
+ const d=document.createElement('div');d.className='item';
+ d.innerHTML=`<span class="no"></span><button class="del" onclick="this.parentNode.remove();renum()">حذف</button>
+ <div class="g3">
+  <label class="fld"><span>المشتق</span><select class="bp">${PRODUCTS.map(p=>`<option value="${esc(p[0])}|${esc(p[1])}">${esc(p[0])} — ${esc(p[1])}</option>`).join('')}</select></label>
+  <label class="fld"><span>الفصيلة</span><select class="bg">${opts(BG)}</select></label>
+  <label class="fld"><span>العدد</span><select class="bn">${opts([...Array(20)].map((_,i)=>i+1))}</select></label>
+ </div>
+ <label class="fld"><span>متطلبات خاصة</span><select class="bs">${opts(SPECIAL)}</select></label>`;
+ $('b-items').appendChild(d);renum();
+}
+/* ---------- عناصر التحويل ---------- */
+function addRef(){
+ const d=document.createElement('div');d.className='item';
+ d.innerHTML=`<span class="no"></span><button class="del" onclick="this.parentNode.remove();renum()">حذف</button>
+ <div class="g2">
+  <label class="fld"><span>القسم / التصنيف</span><select class="rc">${Object.entries(CAT).map(([k,v])=>`<option value="${k}">${esc(v[0])}</option>`).join('')}</select></label>
+  <label class="fld"><span>الفحص</span><select class="rt"></select></label>
+ </div>
+ <label class="fld rto hide"><span>اكتب اسم الفحص</span><input type="text" class="rtx"></label>
+ <div class="g3">
+  <label class="fld"><span>نوع العينة</span><select class="rs">${opts(SPEC)}</select></label>
+  <label class="fld"><span>الحاوية</span><select class="rk">${opts(CONT)}</select></label>
+  <label class="fld"><span>الحفظ</span><select class="rm">${opts(TEMPS)}</select></label>
+ </div>
+ <label class="fld"><span>ملاحظة / مصدر العينة (اختياري)</span><input type="text" class="rn"></label>`;
+ const rc=d.querySelector('.rc'),rt=d.querySelector('.rt');
+ const loadTests=()=>{rt.innerHTML=CAT[rc.value][1].map((t,i)=>`<option value="${i}">${esc(t[0])}</option>`).join('')+'<option value="__o">أخرى (اكتب)</option>';applyT();};
+ const applyT=()=>{d.querySelector('.rto').classList.toggle('hide',rt.value!=='__o');if(rt.value==='__o')return;
+  const t=CAT[rc.value][1][rt.value];d.querySelector('.rs').value=t[1];d.querySelector('.rk').value=t[2];d.querySelector('.rm').value=t[3];};
+ rc.onchange=loadTests;rt.onchange=applyT;loadTests();
+ $('r-items').appendChild(d);renum();
+}
+function renum(){['b-items','r-items'].forEach(id=>$(id).querySelectorAll('.item').forEach((e,i)=>e.querySelector('.no').textContent=i+1));}
+
+/* ---------- التاريخ ---------- */
+function dates(){const d=new Date();let h='';
+ try{h=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long',year:'numeric'}).format(d);}catch(e){}
+ const g=new Intl.DateTimeFormat('ar-SA-u-ca-gregory-nu-latn',{day:'numeric',month:'long',year:'numeric'}).format(d);
+ return {h,g};}
+
+/* ---------- قالب الخطاب ---------- */
+function head(dept,deptEn,no,tag,subject,to,title){
+ const d=dates();
+ return `<div class="lh">
+  <div class="r">المملكة العربية السعودية<br>وزارة الصحة<br>تجمع عسير الصحي<br>${HOSP}<br>${dept}</div>
+  <div class="c"><img src="logo.svg" alt="" onerror="this.remove()"></div>
+  <div class="l">Kingdom of Saudi Arabia<br>Ministry of Health<br>Aseer Health Cluster<br>Sabt Al-Alaya General Hospital<br>${deptEn}</div></div>
+ <div class="lmeta"><span><b>الرقم:</b> ${esc(no)||'..............'}</span><span><b>التاريخ:</b> ${d.h} هـ</span><span><b>الموافق:</b> ${d.g} م</span></div>
+ <div class="lto"><span>${title} ${esc(to)||'...........................'}</span><span>المحترم</span></div>
+ <div class="lsal">السلام عليكم ورحمة الله وبركاته، وبعد:</div>
+ <div class="lsub">الموضوع: ${subject}${tag?`<span class="tag">${tag}</span>`:''}</div>`;}
+const close=`<p>شاكرين ومقدرين لسعادتكم حسن تعاونكم الدائم.</p><div class="lclose">وتقبلوا خالص التحية والتقدير ،،،</div>`;
+const foot=(code)=>`<div class="lcc">نسخة لـ: مدير المستشفى — للإحاطة<br>نسخة لـ: ملف الصادر</div><div class="lfoot"><span>${HOSP} — ${code}</span><span dir="ltr">bhh-hos-ash-lab@moh.gov.sa</span></div>`;
+
+function buildBlood(){
+ const items=[...$('b-items').querySelectorAll('.item')].map(e=>{const p=e.querySelector('.bp').value.split('|');
+  return {ar:p[0],en:p[1],bg:e.querySelector('.bg').value,n:+e.querySelector('.bn').value,s:e.querySelector('.bs').value};});
+ if(!items.length){alert('أضف مشتقاً واحداً على الأقل');return null;}
+ const to=val('b-to','b-to-o'),pt=$('b-type').value==='pt',pri=$('b-pri').value;
+ const total=items.reduce((a,b)=>a+b.n,0);
+ const tag={r:'',u:'عاجل',e:'طارئ جداً'}[pri];
+ const priTxt={r:'في أقرب وقت ممكن',u:'بصفة عاجلة',e:'بصفة طارئة وفورية نظراً لخطورة الحالة وتهديدها للحياة'}[pri];
+ const why=pt?'وذلك لحالة مرضية منوّمة لدينا، ولعدم توفر المطلوب حالياً في مخزون بنك الدم بالمستشفى':'وذلك لتعزيز المخزون الاحتياطي لبنك الدم بالمستشفى بما يضمن استمرار تقديم الخدمة';
+ let h=head('إدارة المختبر وبنك الدم','Laboratory &amp; Blood Bank',$('b-no').value,tag,'طلب تزويد بوحدات دم ومشتقاته',to,'سعادة / مدير المختبر وبنك الدم بـ');
+ h+=`<p>نفيد سعادتكم بحاجة بنك الدم بـ${HOSP} إلى عدد (${total}) وحدة من الدم ومشتقاته الموضحة أنواعها وفصائلها بالجدول أدناه، ${why}.</p>`;
+ if(pt){const dx=val('b-pd','b-pd-o');
+  h+=`<div class="mini">بيانات المريض:</div><div class="pt">
+   <div><b>الاسم:</b> ${esc($('b-pn').value)||'—'}</div><div><b>رقم الملف:</b> ${esc($('b-pf').value)||'—'}</div><div><b>العمر/الجنس:</b> ${esc($('b-pa').value)||'—'} ${esc($('b-pg').value)}</div>
+   <div><b>القسم:</b> ${esc($('b-pw').value)||'—'}</div><div><b>الفصيلة:</b> <span dir="ltr">${esc($('b-pbg').value)||'—'}</span></div><div><b>التشخيص:</b> ${esc(dx)||'—'}</div>
+   <div><b>Hb:</b> ${esc($('b-hb').value)||'—'}</div><div><b>PLT:</b> ${esc($('b-plt').value)||'—'}</div><div><b>Antibody Screen:</b> ${esc($('b-ab').value)||'—'}</div></div>`;}
+ h+=`<div class="mini">الوحدات المطلوبة:</div><table><thead><tr><th>#</th><th>نوع المشتق</th><th>الفصيلة</th><th>عدد الوحدات</th><th>متطلبات خاصة</th></tr></thead><tbody>`+
+  items.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:right">${esc(x.ar)} <span dir="ltr" style="color:#555">(${esc(x.en)})</span></td><td dir="ltr"><b>${esc(x.bg)}</b></td><td>${x.n}</td><td>${x.s==='—'?'—':esc(x.s)}</td></tr>`).join('')+
+  `</tbody><tfoot><tr><td colspan="3">الإجمالي</td><td>${total}</td><td></td></tr></tfoot></table>`;
+ h+=`<p>عليه نأمل من سعادتكم التكرم بالتوجيه بتزويدنا بالمطلوب ${priTxt}، مع إرفاق بيانات الوحدات المصروفة (أرقامها وفصائلها وتواريخ صلاحيتها ونتائج الفحوصات المعدية)، ومراعاة اشتراطات الحفظ والنقل المعتمدة لكل مشتق.</p>`;
+ if($('b-note').value.trim())h+=`<p><b>ملاحظة:</b> ${esc($('b-note').value.trim())}</p>`;
+ h+=close+`<div class="lsig"><div>مشرف بنك الدم<br>${esc($('b-sup').value)||'............................'}</div>
+  <div>رئيس قسم المختبر<br>${esc($('b-head').value)||'............................'}</div></div>`+foot('بنك الدم');
+ return {html:h,name:'طلب_وحدات_دم'};
+}
+
+function buildRef(){
+ const items=[...$('r-items').querySelectorAll('.item')].map(e=>{const c=e.querySelector('.rc').value,t=e.querySelector('.rt').value;
+  return {cat:c,cl:CAT[c][0],t:t==='__o'?e.querySelector('.rtx').value.trim():CAT[c][1][t][0],s:e.querySelector('.rs').value,k:e.querySelector('.rk').value,m:e.querySelector('.rm').value,n:e.querySelector('.rn').value.trim()};});
+ if(!items.length){alert('أضف فحصاً واحداً على الأقل');return null;}
+ const to=val('r-to','r-to-o'),w=WHY[$('r-why').value],pri=$('r-pri').value;
+ const nT=items.length;
+ let h=head('إدارة المختبر','Laboratory Department',$('r-no').value,pri==='u'?'عاجل':'','طلب إجراء فحوصات مخبرية غير متوفرة لدينا',to,'سعادة / مدير المختبر بـ');
+ h+=`<p>نرفق لسعادتكم عينات المريض الموضحة بياناته أدناه، لإجراء عدد (${nT}) ${nT>2&&nT<11?'فحوصات':'فحص'} مخبري، وذلك ${w[1]}.</p>`;
+ h+=`<div class="mini">بيانات المريض:</div><div class="pt">
+  <div><b>الاسم:</b> ${esc($('r-pn').value)||'—'}</div><div><b>رقم الملف:</b> ${esc($('r-pf').value)||'—'}</div><div><b>الهوية:</b> ${esc($('r-pid').value)||'—'}</div>
+  <div><b>العمر/الجنس:</b> ${esc($('r-pa').value)||'—'} ${esc($('r-pg').value)}</div><div><b>القسم:</b> ${esc($('r-pw').value)||'—'}</div><div><b>الطبيب:</b> ${esc($('r-dr').value)||'—'}</div>
+  <div style="grid-column:1/-1"><b>التشخيص المبدئي:</b> ${esc($('r-dx').value)||'—'}</div></div>`;
+ h+=`<div class="mini">الفحوصات المطلوبة:</div><table><thead><tr><th>#</th><th>القسم</th><th>اسم الفحص</th><th>نوع العينة</th><th>الحاوية</th><th>الحفظ</th></tr></thead><tbody>`+
+  items.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.cl)}</td><td style="text-align:right"><b>${esc(x.t)||'—'}</b>${x.n?`<br><span style="color:#555;font-size:11.5px">${esc(x.n)}</span>`:''}</td><td>${esc(x.s)}</td><td>${esc(x.k)}</td><td>${esc(x.m)}</td></tr>`).join('')+`</tbody></table>`;
+ const via=$('r-via').value,vv=$('r-viaV').value.trim();
+ h+=`<p>عليه نأمل من سعادتكم التكرم بالتوجيه باستلام العينات وإجراء الفحوصات المطلوبة${pri==='u'?' بصفة عاجلة':''}، وإفادتنا بالنتائج عبر ${via}${vv?` <span dir="ltr">(${esc(vv)})</span>`:''}، مع إشعارنا بأي عينة غير مطابقة لشروط القبول ليتم إعادة سحبها.</p>`;
+ if(items.some(x=>x.cat==='tox'))h+=`<p>علماً بأن عينات السموم والمخدرات مختومة ومسلّمة وفق إجراءات سلسلة العهدة المعتمدة.</p>`;
+ if($('r-note').value.trim())h+=`<p><b>ملاحظة:</b> ${esc($('r-note').value.trim())}</p>`;
+ h+=close+`<div class="lsig"><div>رئيس قسم المختبر<br>${esc($('r-head').value)||'............................'}</div></div>`+foot('المختبر');
+ return {html:h,name:'تحويل_عينات'};
+}
+
+/* ---------- معاينة / طباعة / مشاركة ---------- */
+let lastName='خطاب';
+function fit(){const w=$('ov').querySelector('.scroll').clientWidth-16,full=793.7;const s=Math.min(1,w/full);
+ const sc=$('scaler');sc.style.transform=`scale(${s})`;sc.style.height=($('letter').offsetHeight*s)+'px';}
+function preview(){const r=cur==='blood'?buildBlood():buildRef();if(!r)return;saveKeep();
+ $('letter').innerHTML=r.html;lastName=r.name+'_'+new Date().toISOString().slice(0,10);
+ $('ov').classList.add('on');document.body.style.overflow='hidden';requestAnimationFrame(fit);}
+function closeOv(){$('ov').classList.remove('on');document.body.style.overflow='';}
+addEventListener('resize',()=>{if($('ov').classList.contains('on'))fit();});
+async function sharePdf(){
+ const b=$('shareBtn');if(typeof html2pdf==='undefined'){alert('تعذر تحميل مكتبة PDF — استخدم الطباعة ثم «حفظ PDF»');return;}
+ b.disabled=true;b.textContent='⏳ جاري التجهيز...';
+ const holder=document.createElement('div');holder.style.cssText='position:fixed;left:-10000px;top:0;width:210mm';
+ const clone=$('letter').cloneNode(true);clone.style.boxShadow='none';clone.style.minHeight='296mm';holder.appendChild(clone);document.body.appendChild(holder);
+ try{
+  const blob=await html2pdf().set({margin:0,image:{type:'jpeg',quality:.97},html2canvas:{scale:2,useCORS:true,backgroundColor:'#fff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy']}}).from(clone).outputPdf('blob');
+  const file=new File([blob],lastName+'.pdf',{type:'application/pdf'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:lastName});}
+  else{const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}
+ }catch(e){if(e.name!=='AbortError')alert('تعذرت المشاركة: '+e.message);}
+ holder.remove();b.disabled=false;b.textContent='📤 مشاركة PDF';
+}
+
+/* ---------- حفظ الأسماء الثابتة ---------- */
+function saveKeep(){try{document.querySelectorAll('.keep').forEach(i=>localStorage.setItem('k2_'+i.id,i.value));}catch(e){}}
+function loadKeep(){try{document.querySelectorAll('.keep').forEach(i=>{const v=localStorage.getItem('k2_'+i.id);if(v!==null)i.value=v;});}catch(e){}}
+function resetForm(){if(!confirm('بدء خطاب جديد ومسح البيانات الحالية؟'))return;
+ const s=cur==='blood'?$('sec-blood'):$('sec-ref');
+ s.querySelectorAll('input:not(.keep),textarea').forEach(i=>i.value='');s.querySelectorAll('select').forEach(x=>x.selectedIndex=0);
+ s.querySelectorAll('[id$="-o-w"]').forEach(x=>x.classList.add('hide'));
+ if(cur==='blood'){$('b-items').innerHTML='';addBlood();$('b-pri').value='u';ptToggle();}else{$('r-items').innerHTML='';addRef();}}
+
+/* ---------- تهيئة ---------- */
+fillSel('b-to',DEST,undefined,true);fillSel('r-to',DEST,undefined,true);
+fillSel('b-pw',WARDS,'—');fillSel('r-pw',WARDS,'—');fillSel('b-pbg',BG,'—');fillSel('b-pd',DX,'—');
+$('b-pd').querySelector('option:last-child').value='__o';
+$('r-why').innerHTML=Object.entries(WHY).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('');
+loadKeep();addBlood();addRef();
+</script>
+</body>
+</html>
